@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<div class=container-fluid>
+<head>
+	<title>Local Weather</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<style>
+		.container-fluid {
+  			text-align: center;
+			display: grid;
+			grid-template-columns: repeat(5, 1fr);
+			grid-gap: 5px;
+			grid-auto-rows: minmax(50px, auto);
+			background-image:url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJz8a5uxi4aVvDK2Yy-PDO48dIh_8_U_EeVIC8JOpgHlNg6cB-");
+			background-size: 100% 100%;
+			color: white;
+		}
+		/*div {
+			border-color: black;
+			border-width: 1px;
+			border-style: solid;
+		}*/
+		#update {
+			grid-column: 3;
+			grid-row: 1;
+		}
+		#name {
+			grid-column: 3;
+			grid-row: 4;
+			width: 100%;
+			margin: auto;
+		}
+		#main {
+			grid-column: 2;
+			grid-row: 4;
+			width: 100%;
+			margin: auto;
+		}
+		#img_div {
+			grid-column: 3;
+			grid-row: 3;
+			width: 100%;
+			margin: auto;  
+		}
+		#description {
+			grid-column: 4;
+			grid-row: 4;
+			width: 100%;
+			margin: auto;
+		}
+		#temp {  
+			text-align: center;
+			grid-column: 3;
+			grid-row: 5;
+			width: 100%;
+			margin: auto;
+		}
+		#rainfall {
+			grid-column: 3;
+			grid-row: 6;
+			width: 100%;
+			margin: auto;
+		}
+		#pressure {
+			grid-column: 3;
+			grid-row: 7;
+			width: 100%;
+			margin: auto;
+		}
+		#humidity {
+			grid-column: 3;
+			grid-row: 8;
+			width: 100%;
+			margin: auto;
+		}
+		#cloud {
+			grid-column: 3;
+			grid-row: 9;
+			width: 100%;
+			margin: auto;
+		}
+		#sunrise {
+			grid-column: 1;
+			grid-row: 3;
+			width: 100%;
+			margin: auto;
+		}
+		#sunset {
+			grid-column: 5;
+			grid-row: 3;
+			width: 100%;
+			margin: auto;
+		}
+		#windspeed {
+			grid-column: 1;
+			grid-row: 5;
+			width: 100%;
+			margin: auto;
+		}
+		#wind_direction {
+			grid-column: 5;
+			grid-row: 5;
+			width: 100%;
+			margin: auto;
+		}
+</style>
+</head>
+<body>
+	<button id="update">Local Weather Update</button>
+    <div id="name"></div>
+    <div id="main"></div>
+    <div id="img_div"><img  id="pic"></div>
+    <div id="description"></div>
+    <div id="temp"></div>
+    <div id="rainfall"></div>
+    <div id="pressure"></div>
+    <div id="humidity"></div>
+    <div id="cloud"></div>
+    <div id="sunrise"></div>
+    <div id="sunset"></div>
+    <div id="windspeed"></div>
+    <div id="wind_direction"></div>
+		<script>
+$(document).ready(function() 
+{
+  $("#update").click(function()
+  {
+    if(navigator.geolocation)
+    {
+      navigator.geolocation.getCurrentPosition(function(position)
+      {
+        var weatherLocation="https://fcc-weather-api.glitch.me/api/current?lat="+position.coords.latitude+"&lon="+position.coords.longitude;
+        $.getJSON(weatherLocation, function(json)
+        {
+          var data=JSON.parse(JSON.stringify(json));
+          $("#name").html(data.name+",  "+data.sys.country);
+          $("#main").html(data.weather[0].main);
+          $("#pic").attr("src",data.weather[0].icon);
+          $("#description").html(data.weather[0].description);
+          $("#temp").html("Temperature: "+data.main.temp+" C");
+  //        $("#rainfall").html("Rain: "+data.rain["3h"]+" last 3 hrs");
+          $("#pressure").html("Pressure: "+data.main.pressure+" hpa");
+          $("#humidity").html("Humidity: "+data.main.humidity+"%");
+          $("#cloud").html("Cloudiness: "+data.clouds.all+"%");
+          $("#sunrise").html("Sunrise: "+data.sys.sunrise+" seconds after 1/1/70");
+          $("#sunset").html("Sunset: "+data.sys.sunset+" seconds after 1/1/70");
+          $("#windspeed").html("Wind Speed "+data.wind.speed+" km/hr");
+          $("#wind_direction").html("Wind Direction "+data.wind.deg+" deg");
+        });  
+      });
+    };
+  });
+});		
+		</script>
+</body>
+</div>
+</html>

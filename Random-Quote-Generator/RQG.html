@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+  <div class= "container-fluid">
+    <head>
+	<title>Random Quote Generator</title>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<style>
+		h1 {
+  			text-align: center;
+		}
+
+		#theQuote {
+  			border-color: black;
+			border-width: 10px;
+  			border-style: solid;
+  			text-align: center;
+  			margin: 20px 50px 20px 50px;
+  			padding: 20px 20px 20px 20px;  
+		}
+
+		button{
+  			padding-top: 10px;
+  			padding-bottom: 10px;
+  			width: 200%;
+  
+  		}
+	</style>
+    </head>
+    <body>
+      
+      <h1> Random Quote Generator</h1>
+      <div style="text-align:center">
+              
+      <button id="newQuote" style="width:50%;height:50px">New Quote</button>
+      </div>
+      
+      <div id="theQuote">What's your quote of the day?!
+      </div>
+      	<script>
+
+		$(document).ready(function() {
+    		$("#newQuote").click(function() {
+  		$.getJSON("https://raw.githubusercontent.com/kozmickai/Random-Quote-Generator/master/Random-Quote-Generator/List-of-quotes.json", function(json){ 
+    var index=Math.floor((json.length-1)*Math.random());
+    var obj=JSON.parse(JSON.stringify(json[index]))
+      		$("#theQuote").html(obj.quoteText + "</br></br>- " + obj.quoteAuthor); 
+      })
+    });
+  });
+
+	</script>
+
+        
+    </body>
+  </div>
+</html>
